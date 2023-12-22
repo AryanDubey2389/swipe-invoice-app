@@ -13,6 +13,7 @@ const invoicesSlice = createSlice({
       return state.filter((invoice) => invoice.id !== targetId);
     },
     updateInvoice: (state, action) => {
+      console.log('new currency update invoice - ', action.payload.id);
       const index = state.findIndex((invoice) => {
         return invoice.id == action.payload.id;
       });
@@ -24,6 +25,49 @@ const invoicesSlice = createSlice({
         ];
       }
       return state;
+    },
+    updateInvoiceCurrency: (state, action) => {
+      console.log('action - ', action.payload)
+      const { itemId, newCurrency } = action.payload;
+      console.log('Current state:', state);
+
+      // Iterate through each invoice in the state
+      state.forEach((invoice) => {
+        // Find the index of the item within the invoice
+        console.log('hi there brother')
+        // const itemIndex = invoice?.items.findIndex(
+        //   (item) => parseInt(item.itemId) == parseInt(itemId)
+        // );
+        // console.log('itemIndex - ', itemIndex);
+
+        if (true) {
+          // If the item is found, update its currency
+          // const item = invoice.items[itemIndex];
+          // console.log('item in update - ', item);
+          // // const newPrice = convertCurrency(
+          // //   parseFloat(item.itemPrice),
+          // //   item.currency,
+          // //   newCurrency
+          // );
+
+          // Update the item's currency and price in the invoice
+          // invoice.items[itemIndex] = {
+          //   ...item,
+          //   currency: newCurrency,
+          //   itemPrice: newPrice.toFixed(2),
+          // };
+
+          // Recalculate the total for the invoice
+          // invoice.total = invoice.items.reduce((total, currentItem) => {
+          //   const convertedPrice = convertCurrency(
+          //     parseFloat(currentItem.itemPrice),
+          //     currentItem.currency,
+          //     invoice.currency
+          //   );
+          //   return total + convertedPrice * currentItem.itemQuantity;
+          // }, 0).toFixed(2);
+        }
+      });
     },
     updateInvoicesByProduct: (state, action) => {
       const { productId, diff, prodCurr } = action.payload;
@@ -63,6 +107,7 @@ export const {
   updateInvoice,
   updateInvoicesByProduct,
   updateInvoicesOnProductDelete,
+  updateInvoiceCurrency,
 } = invoicesSlice.actions;
 
 export const selectInvoiceList = (state) => state.invoices;

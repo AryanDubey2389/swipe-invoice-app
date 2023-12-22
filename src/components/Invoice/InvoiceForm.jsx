@@ -11,7 +11,7 @@ import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
 import generateRandomId from "../../utils/generateRandomId";
 import { useInvoiceListData, useProductListData } from "../../redux/hooks";
 import ProductForm from "../Product/ProductForm";
-import currencies from "../../utils/currencies.json";
+import { currencies } from "../../utils/currencyConverter";
 import convertCurrency from "../../utils/currencyConverter";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -82,7 +82,24 @@ const InvoiceForm = () => {
   const handleOpenProductForm = (id, isEdit) => {
     setOpenProductForm({ open: true, isEdit: isEdit, id: id });
   };
-  const handleCloseProductForm = () => {
+  const handleCloseProductForm = (pid) => {
+    const updatedItems = formData.items.map((oldItem) => {
+      if (oldItem.itemId === pid) {
+          const item = getOneProduct(pid);
+          return {
+            ...oldItem,
+            itemId: pid,
+            itemName: item.name,
+            itemPrice: item.price,
+            itemCategory: item.category,
+            itemCurreny: item.currency
+          };
+        return { ...oldItem, ItemId: pid };
+      }
+      return oldItem;
+    });
+    setFormData({ ...formData, items: updatedItems });
+    handleCalculateTotal();
     setOpenProductForm({ open: false, isEdit: false, id: "" });
   };
   const handleRowDel = (itemToDelete) => {
@@ -115,7 +132,6 @@ const InvoiceForm = () => {
       let subTotal = 0;
       prevFormData.items.forEach((item) => {
         let price = convertCurrency(item.itemPrice, item.itemCurreny, formData.currency) ;
-        console.log(formData.currency + ', -- ,'+ ', -- ,' + item.itemPrice)
         if (!price) {
           const prod = getOneProduct(item.itemId);
           price = convertCurrency(
@@ -125,7 +141,7 @@ const InvoiceForm = () => {
           );
         }
         subTotal +=
-          parseFloat(price || 0).toFixed(2) * parseInt(item.itemQuantity);
+          parseFloat(price|| 0).toFixed(2) * parseInt(item.itemQuantity);
       });
 
       const taxAmount = parseFloat(
@@ -163,6 +179,7 @@ const InvoiceForm = () => {
             itemName: item.name,
             itemPrice: item.price,
             itemCategory: item.category,
+            itemCurreny: item.currency
           };
         }
         return { ...oldItem, [evt.target.name]: evt.target.value };
@@ -445,7 +462,7 @@ const InvoiceForm = () => {
             />
             <ProductForm
               showModal={openProductForm.open}
-              closeModal={handleCloseProductForm}
+              closeModal={()=>handleCloseProductForm(openProductForm.id)}
               id={openProductForm.id}
               edit={openProductForm.isEdit}
             />

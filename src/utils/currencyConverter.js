@@ -31,7 +31,6 @@ const convertCurrency = (amount, source, target) => {
     return null; 
   }
   
-  console.log('final float amount - ', (floatAmount / exchangeRates[source]) * exchangeRates[target]);
   return (floatAmount / exchangeRates[source]) * exchangeRates[target];
 };
 

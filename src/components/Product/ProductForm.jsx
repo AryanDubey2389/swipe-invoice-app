@@ -3,10 +3,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch } from "react-redux";
 import { Button, Card, Col, Form, Modal, Row } from "react-bootstrap";
 import { addProduct, updateProduct } from "../../redux/productsSlice";
-import { updateInvoicesByProduct } from "../../redux/invoicesSlice";
+import { updateInvoice, updateInvoicesByProduct, updateInvoiceCurrency } from "../../redux/invoicesSlice";
 import productCategories from "../../utils/categories.json";
 import { useProductListData } from "../../redux/hooks";
-import currencies from "../../utils/currencies.json";
+import { currencies } from "../../utils/currencyConverter";
 import currencyConverter from "../../utils/currencyConverter";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -52,6 +52,10 @@ const ProductForm = (props) => {
   }, [props, props.id]);
 
   const onCurrencyChange = (selectedOption) => {
+    dispatch(updateInvoiceCurrency({
+      invoiceId: props?.id, 
+      newCurrency: selectedOption?.currency,
+    }));
     setFormData({ ...formData, currency: selectedOption.currency });
   };
 
