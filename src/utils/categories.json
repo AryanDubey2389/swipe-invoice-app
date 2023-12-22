@@ -1,0 +1,9 @@
+{
+  "Design": "project",
+  "Marketing": "campaign",
+  "Research": "hour",
+  "Legal Services": "hour",
+  "Development": "project",
+  "Healthcare Services": "appointment",
+  "Educational Courses": "course"
+}
