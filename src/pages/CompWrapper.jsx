@@ -13,7 +13,7 @@ const CompWrapper = (props) => {
   return (
     <Row>
       <Col className="mx-auto" xs={12} md={8} lg={9}>
-        <h3 className="fw-bold pb-2 pb-md-4 text-center">Swipe Assignment</h3>
+        <h3 className="fw-bold pb-2 pb-md-4 text-center">Envoice App</h3>
         <div className="d-flex justify-content-center">
           <Tabs
       activeKey={key}
